@@ -29,7 +29,7 @@ pipeline {
         stage('Quality') {
             steps {
                 withSonarQubeEnv('sonar-server') {
-                    sh './mvnw clean verify sonar:sonar'
+                    sh './mvnw clean verify sonar:sonar -Dspring.profiles.active=test'
                 }
             }
         }
