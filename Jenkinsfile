@@ -23,7 +23,7 @@ pipeline {
         stage('Test') {
             steps {
                 echo 'Testing..'
-                sh './mvnw test'
+                sh './mvnw clean test -Dspring.profiles.active=test'
             }
         }
         stage('Quality') {

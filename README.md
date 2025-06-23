@@ -65,6 +65,10 @@ The project uses the h2 database in the test
 ./mvnw test
 ```
 
+```bash
+./mvnw test -Dspring.profiles.active=test 
+```
+
 #### Run
 
 ```bash
@@ -115,22 +119,27 @@ via docker
 
 ```bash
 docker volume create --name jenkins_home
-docker run -p 18080:8080 -p 50000:50000 --add-host=host.docker.internal:host-gateway -v jenkins_home:/var/jenkins_home jenkins/jenkins:lts-jdk11
+docker run -p 18080:8080 -p 50000:50000 --add-host=host.docker.internal:host-gateway -v jenkins_home:/var/jenkins_home -d jenkins/jenkins:lts-jdk11
 ```
 
 > See `https://hub.docker.com/_/jenkins`
 
 After the docker container is running open http://localhost:18080 create admin user, use default plugins installed and 
-add the sonarqube plugin
+add the "SonarQube Scanner" plugin
 
 The sonarqube plugin needs to be configured, add the tools:
 
-- Jenkins must be configured with the following tools:
-    - **JDK 21** (tool name: `jdk21`)
-    - **Maven** (tool name: `maven`)
+- Jenkins must be configured with the following tools ():
+    - **JDK 21** (tool name: `jdk21`) under "Managing Jenkins -> Tools" 
+    - **Maven** (tool name: `maven`) under "Managing Jenkins -> Tools"
     - A configured **SonarQube server** (e.g., `sonar-server`) under “Manage Jenkins > Configure System” 
 
-- Add a webhook to the spring-server-mvn project in sonarqube pointing to the jenkins host `http://host.docker.internal:18080/sonarqube-webhook/`
+  - Add a webhook to the spring-server-mvn project in sonarqube pointing to the jenkins host `http://host.docker.internal:18080/sonarqube-webhook/`
+
+- Now we are adding a new CI/CD Pipeline to jenkins
+  - New Item (name: `server-sping-mvn`), Select Pipeline -> OK
+  - Under the Pipeline section -> Choose `Pipeline script from SCM` choose GIT and enter the repository url https://github.com/brcina/spring-server-mvn.git
+    and add the credentials token from created on github, the branch needs to be changed to */main 
 
 
 Spring Boot Documentation (HELP.md)
