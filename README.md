@@ -37,7 +37,6 @@ export SM_DB_URL=jdbc:postgresql://localhost:54320/postgres?currentSchema=pg17_s
 export SM_DB_USERNAME=postgres
 export SM_DB_PASSWORD=postgres
 ```
-> check https://docs.sonarsource.com/sonarqube-server/latest/user-guide/managing-tokens/ for instructions how create it
 
 * Create your own `application-dev.yml` to overwrite the values in `application.yml` f.e.
 
@@ -94,6 +93,8 @@ docker run -d --name sonarqube -e SONAR_ES_BOOTSTRAP_CHECKS_DISABLE=true --add-h
 After the docker container is running login (with the password provided) create admin user with password.
 Also create a user and copy the token to the environment variable `SM_SONAR_TOKEN` see the Environment section
 
+> check https://docs.sonarsource.com/sonarqube-server/latest/user-guide/managing-tokens/ for instructions how create it
+
 #### CI/CD 
 
 This project uses jenkins pipeline see `Jenkinsfile` in the project, for development purposes one can install jenkins 
@@ -115,6 +116,36 @@ The sonarqube plugin needs to be configured, add the tools:
     - A configured **SonarQube server** (e.g., `sonar-server`) under “Manage Jenkins > Configure System”
 
 - Add a webhook to the spring-server-mvn project in sonarqube pointing to the jenkins host `http://host.docker.internal:18080/sonarqube-webhook/`
+
+
+Spring Boot Documentation (HELP.md)
+-----------------------------------
+
+# Getting Started
+
+### Reference Documentation
+For further reference, please consider the following sections:
+
+* [Official Apache Maven documentation](https://maven.apache.org/guides/index.html)
+* [Spring Boot Maven Plugin Reference Guide](https://docs.spring.io/spring-boot/3.5.3/maven-plugin)
+* [Create an OCI image](https://docs.spring.io/spring-boot/3.5.3/maven-plugin/build-image.html)
+* [Spring Data JPA](https://docs.spring.io/spring-boot/3.5.3/reference/data/sql.html#data.sql.jpa-and-spring-data)
+* [Spring Web](https://docs.spring.io/spring-boot/3.5.3/reference/web/servlet.html)
+
+### Guides
+The following guides illustrate how to use some features concretely:
+
+* [Accessing Data with JPA](https://spring.io/guides/gs/accessing-data-jpa/)
+* [Building a RESTful Web Service](https://spring.io/guides/gs/rest-service/)
+* [Serving Web Content with Spring MVC](https://spring.io/guides/gs/serving-web-content/)
+* [Building REST services with Spring](https://spring.io/guides/tutorials/rest/)
+
+### Maven Parent overrides
+
+Due to Maven's design, elements are inherited from the parent POM to the project POM.
+While most of the inheritance is fine, it also inherits unwanted elements like `<license>` and `<developers>` from the parent.
+To prevent this, the project POM contains empty overrides for these elements.
+If you manually switch to a different parent and actually want the inheritance, you need to remove those overrides.
 
 
 

@@ -32,3 +32,4 @@ build/
 ### VS Code ###
 .vscode/
 /setenv-dev.sh
+/src/main/resources/application-dev.yml
