@@ -29,7 +29,7 @@ CREATE schema pg17_server_spring authorization postgres;
 
 #### Environment
 
-* Create your own `setenv.sh`
+* Create your own `setenv-dev.sh`
 ```bash
 export SM_SONAR_TOKEN=<CHANGEME>
 export SM_SONAR_URL=http://localhost:9000
@@ -37,6 +37,7 @@ export SM_DB_URL=jdbc:postgresql://localhost:54320/postgres?currentSchema=pg17_s
 export SM_DB_USERNAME=postgres
 export SM_DB_PASSWORD=postgres
 ```
+> One has to execute `source ./setenv.sh` to set up the environment
 
 * Create your own `application-dev.yml` to overwrite the values in `application.yml` f.e.
 
@@ -72,12 +73,15 @@ The project uses the h2 database in the test
 #### Run
 
 ```bash
+source ./setenv.sh
 ./mvnw spring-boot:run
 ```
+
 
 Using the dev profile which will also insert faked organisations see the LoadDatabase class
 
 ```bash
+source ./setenv.sh
 ./mvnw spring-boot:run -Dspring-boot.run.profiles=dev
 ```
 
@@ -139,7 +143,7 @@ The sonarqube plugin needs to be configured, add the tools:
 - Now we are adding a new CI/CD Pipeline to jenkins
   - New Item (name: `server-sping-mvn`), Select Pipeline -> OK
   - Under the Pipeline section -> Choose `Pipeline script from SCM` choose GIT and enter the repository url https://github.com/brcina/spring-server-mvn.git
-    and add the credentials token from created on github, the branch needs to be changed to */main 
+    and add the credentials token created on github, the branch needs to be changed to */main 
 
 
 Spring Boot Documentation (HELP.md)

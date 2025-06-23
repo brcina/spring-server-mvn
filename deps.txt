@@ -48,7 +48,6 @@ com.group.iso:spring-server-mvn:jar:0.0.1-SNAPSHOT
 |  |  \- com.fasterxml.jackson.module:jackson-module-parameter-names:jar:2.19.1:compile
 |  +- org.springframework.boot:spring-boot-starter-tomcat:jar:3.5.3:compile
 |  |  +- org.apache.tomcat.embed:tomcat-embed-core:jar:10.1.42:compile
-|  |  +- org.apache.tomcat.embed:tomcat-embed-el:jar:10.1.42:compile
 |  |  \- org.apache.tomcat.embed:tomcat-embed-websocket:jar:10.1.42:compile
 |  +- org.springframework:spring-web:jar:6.2.8:compile
 |  |  \- io.micrometer:micrometer-observation:jar:1.15.1:compile
@@ -87,22 +86,38 @@ com.group.iso:spring-server-mvn:jar:0.0.1-SNAPSHOT
 |  |  \- org.springframework:spring-jcl:jar:6.2.8:compile
 |  +- org.springframework:spring-test:jar:6.2.8:test
 |  \- org.xmlunit:xmlunit-core:jar:2.10.2:test
++- org.springframework.boot:spring-boot-starter-validation:jar:3.5.3:compile
+|  +- org.apache.tomcat.embed:tomcat-embed-el:jar:10.1.42:compile
+|  \- org.hibernate.validator:hibernate-validator:jar:8.0.2.Final:compile
+|     \- jakarta.validation:jakarta.validation-api:jar:3.0.2:compile
 +- org.projectlombok:lombok:jar:1.18.38:provided
 +- net.datafaker:datafaker:jar:2.4.3:compile
 |  +- org.yaml:snakeyaml:jar:2.4:compile
 |  +- com.github.curious-odd-man:rgxgen:jar:2.0:compile
 |  \- com.googlecode.libphonenumber:libphonenumber:jar:9.0.2:compile
-\- org.springdoc:springdoc-openapi-starter-webmvc-ui:jar:2.8.9:compile
-   +- org.springdoc:springdoc-openapi-starter-webmvc-api:jar:2.8.9:compile
-   |  \- org.springdoc:springdoc-openapi-starter-common:jar:2.8.9:compile
-   |     +- org.springframework.boot:spring-boot-starter-validation:jar:3.5.3:compile
-   |     |  \- org.hibernate.validator:hibernate-validator:jar:8.0.2.Final:compile
-   |     \- io.swagger.core.v3:swagger-core-jakarta:jar:2.2.30:compile
-   |        +- org.apache.commons:commons-lang3:jar:3.17.0:compile
-   |        +- io.swagger.core.v3:swagger-annotations-jakarta:jar:2.2.30:compile
-   |        +- io.swagger.core.v3:swagger-models-jakarta:jar:2.2.30:compile
-   |        +- jakarta.validation:jakarta.validation-api:jar:3.0.2:compile
-   |        \- com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:jar:2.19.1:compile
-   +- org.webjars:swagger-ui:jar:5.21.0:compile
-   \- org.webjars:webjars-locator-lite:jar:1.1.0:compile
-      \- org.jspecify:jspecify:jar:1.0.0:compile
++- org.springdoc:springdoc-openapi-starter-webmvc-ui:jar:2.8.9:compile
+|  +- org.springdoc:springdoc-openapi-starter-webmvc-api:jar:2.8.9:compile
+|  |  \- org.springdoc:springdoc-openapi-starter-common:jar:2.8.9:compile
+|  |     \- io.swagger.core.v3:swagger-core-jakarta:jar:2.2.30:compile
+|  |        +- io.swagger.core.v3:swagger-annotations-jakarta:jar:2.2.30:compile
+|  |        +- io.swagger.core.v3:swagger-models-jakarta:jar:2.2.30:compile
+|  |        \- com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:jar:2.19.1:compile
+|  +- org.webjars:swagger-ui:jar:5.21.0:compile
+|  \- org.webjars:webjars-locator-lite:jar:1.1.0:compile
+|     \- org.jspecify:jspecify:jar:1.0.0:compile
++- io.rest-assured:spring-mock-mvc:jar:5.5.5:test
+|  +- io.rest-assured:rest-assured:jar:5.5.5:test
+|  |  +- org.apache.groovy:groovy:jar:4.0.27:test
+|  |  +- org.apache.groovy:groovy-xml:jar:4.0.27:test
+|  |  +- org.apache.httpcomponents:httpclient:jar:4.5.13:test
+|  |  |  +- org.apache.httpcomponents:httpcore:jar:4.4.16:test
+|  |  |  \- commons-codec:commons-codec:jar:1.18.0:test
+|  |  +- org.apache.httpcomponents:httpmime:jar:4.5.13:test
+|  |  +- org.ccil.cowan.tagsoup:tagsoup:jar:1.2.1:test
+|  |  +- io.rest-assured:json-path:jar:5.5.5:test
+|  |  |  +- org.apache.groovy:groovy-json:jar:4.0.27:test
+|  |  |  \- io.rest-assured:rest-assured-common:jar:5.5.5:test
+|  |  \- io.rest-assured:xml-path:jar:5.5.5:test
+|  |     \- org.apache.commons:commons-lang3:jar:3.17.0:compile
+|  \- io.rest-assured:spring-commons:jar:5.5.5:test
+\- com.h2database:h2:jar:2.3.232:test
