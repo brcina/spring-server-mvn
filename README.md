@@ -7,8 +7,8 @@ Project providing a rest api of organisations which are documented with open api
 ### Prerequisites
 
 * Java 21
-* Maven
-* Docker
+* Maven >= 3.9.6
+* Docker >= 28.2.2
 
 ### Development
 
@@ -57,6 +57,8 @@ spring:
 ```
 
 #### Test
+
+The project uses the h2 database in the test 
 
 ```bash
 ./mvnw test
@@ -120,7 +122,7 @@ The sonarqube plugin needs to be configured, add the tools:
 - Jenkins must be configured with the following tools:
     - **JDK 21** (tool name: `jdk21`)
     - **Maven** (tool name: `maven`)
-    - A configured **SonarQube server** (e.g., `sonar-server`) under “Manage Jenkins > Configure System”
+    - A configured **SonarQube server** (e.g., `sonar-server`) under “Manage Jenkins > Configure System” 
 
 - Add a webhook to the spring-server-mvn project in sonarqube pointing to the jenkins host `http://host.docker.internal:18080/sonarqube-webhook/`
 

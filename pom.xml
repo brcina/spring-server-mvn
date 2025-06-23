@@ -30,6 +30,10 @@
 		<java.version>21</java.version>
 		<sonar.host.url> ${env.SM_SONAR_URL}</sonar.host.url>
 		<sonar.token>${env.SM_SONAR_TOKEN}</sonar.token>
+		<datafaker.version>2.4.3</datafaker.version>
+		<lombok.version>1.18.38</lombok.version>
+		<springdoc.openapi>2.8.9</springdoc.openapi>
+		<sonar.version>5.1.0.4751</sonar.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -59,18 +63,18 @@
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
-			<version>1.18.38</version>
+			<version>${lombok.version}</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>net.datafaker</groupId>
 			<artifactId>datafaker</artifactId>
-			<version>2.4.3</version>
+			<version>${datafaker.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springdoc</groupId>
 			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-			<version>2.8.9</version>
+			<version>${springdoc.openapi}</version>
 		</dependency>
 		<dependency>
 			<groupId>io.rest-assured</groupId>
@@ -94,7 +98,7 @@
 			<plugin>
 				<groupId>org.sonarsource.scanner.maven</groupId>
 				<artifactId>sonar-maven-plugin</artifactId>
-				<version>5.1.0.4751</version>
+				<version>${sonar.version}</version>
 			</plugin>
 		</plugins>
 	</build>
