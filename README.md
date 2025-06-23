@@ -119,7 +119,7 @@ via docker
 
 ```bash
 docker volume create --name jenkins_home
-docker run -p 18080:8080 -p 50000:50000 --add-host=host.docker.internal:host-gateway -v jenkins_home:/var/jenkins_home -d jenkins/jenkins:lts-jdk11
+docker run -d --name jenkins -p 18080:8080 -p 50000:50000 --add-host=host.docker.internal:host-gateway -v jenkins_home:/var/jenkins_home jenkins/jenkins:lts-jdk11
 ```
 
 > See `https://hub.docker.com/_/jenkins`
