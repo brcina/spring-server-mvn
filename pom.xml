@@ -30,7 +30,7 @@
 		<java.version>21</java.version>
 		<sonar.host.url> ${env.SM_SONAR_URL}</sonar.host.url>
 		<sonar.token>${env.SM_SONAR_TOKEN}</sonar.token>
-		<sonar.coverage.jacoco>target/site/jacoco/jacoco.xml</sonar.coverage.jacoco>
+		<sonar.coverage.jacoco.xmlReportPaths>target/site/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
 		<datafaker.version>2.4.3</datafaker.version>
 		<lombok.version>1.18.38</lombok.version>
 		<springdoc.openapi>2.8.9</springdoc.openapi>
@@ -122,6 +122,7 @@
 						<configuration>
 							<excludes>
 								<exclude>com/group/iso/configuration/**</exclude>
+								<exclude>com/group/iso/SpringServerMvnApplication.class</exclude>
 							</excludes>
 						</configuration>
 					</execution>

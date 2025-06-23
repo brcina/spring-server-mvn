@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 
@@ -74,8 +75,33 @@ class OrganisationControllerTest {
                 .when()
                 .post("/api/organisations")
                 .then()
-                .statusCode(200)
+                .statusCode(HttpStatus.CREATED.value())
                 .body("name", equalTo("Org X"));
+    }
+
+    @Test
+    void shouldCreateOrganisation_organisationExists() throws Exception {
+        repository.save(Organisation.builder()
+                .name("Org X")
+                .email("old@example.com")
+                .address("Old Street")
+                .phone("111")
+                .build());
+
+        OrganisationDto dto = OrganisationDto.builder()
+                .name("Org X")
+                .email("x@example.com")
+                .address("X Street")
+                .phone("123")
+                .build();
+
+        RestAssuredMockMvc.given()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .body(objectMapper.writeValueAsString(dto))
+                .when()
+                .post("/api/organisations")
+                .then()
+                .statusCode(HttpStatus.CONFLICT.value());
     }
 
     @Test
@@ -100,8 +126,60 @@ class OrganisationControllerTest {
                 .when()
                 .put("/api/organisations/{id}", saved.getId())
                 .then()
-                .statusCode(200)
+                .statusCode(HttpStatus.OK.value())
                 .body("name", equalTo("New Org"));
+    }
+
+    @Test
+    void shouldUpdateOrganisation_organisationExists() throws Exception {
+        Organisation saved = repository.save(Organisation.builder()
+                .name("Old Org")
+                .email("old@example.com")
+                .address("Old Street")
+                .phone("111")
+                .build());
+
+        repository.save(Organisation.builder()
+                .name("Other Org")
+                .email("old@example.com")
+                .address("Old Street")
+                .phone("111")
+                .build());
+
+        OrganisationDto dto = OrganisationDto.builder()
+                .name("Other Org")
+                .email("new@example.com")
+                .address("New Street")
+                .phone("222")
+                .build();
+
+        RestAssuredMockMvc.given()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .body(objectMapper.writeValueAsString(dto))
+                .when()
+                .put("/api/organisations/{id}", saved.getId())
+                .then()
+                .statusCode(HttpStatus.CONFLICT.value());
+    }
+
+    @Test
+    void shouldUpdateOrganisation_notFound() throws Exception {
+
+        OrganisationDto dto = OrganisationDto.builder()
+                .name("New Org")
+                .email("new@example.com")
+                .address("New Street")
+                .phone("222")
+                .build();
+
+        RestAssuredMockMvc.given()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .body(objectMapper.writeValueAsString(dto))
+                .when()
+                .put("/api/organisations/{id}", Long.valueOf(1))
+                .then()
+                .statusCode(HttpStatus.NOT_FOUND.value());
+
     }
 
     @Test
@@ -116,7 +194,16 @@ class OrganisationControllerTest {
         RestAssuredMockMvc.when()
                 .delete("/api/organisations/{id}", saved.getId())
                 .then()
-                .statusCode(204);
+                .statusCode(HttpStatus.NO_CONTENT.value());
+    }
+
+    @Test
+    void shouldDeleteOrganisation_notFound() {
+
+        RestAssuredMockMvc.when()
+                .delete("/api/organisations/{id}", Long.valueOf(1))
+                .then()
+                .statusCode(HttpStatus.NOT_FOUND.value());
     }
 
 }

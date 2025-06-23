@@ -7,13 +7,14 @@ import com.group.iso.model.Organisation;
 import com.group.iso.repository.OrganisationRepository;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,7 +26,7 @@ import java.util.Optional;
 @Tag(name = "Organisation", description = "API for managing organisations")
 public class OrganisationController {
 
-    private final OrganisationRepository organisationRepository;
+    private final OrganisationRepository repository;
 
     @GetMapping
     @Operation(summary = "Get all organisations", description = "Returns a paginated list of all organisations")
@@ -40,7 +41,7 @@ public class OrganisationController {
         }
         var pageable = PageRequest.of(page, size, sortOrder);
 
-        var pageResult = organisationRepository.findAll(pageable)
+        var pageResult = repository.findAll(pageable)
                 .map(OrganisationMapper::toDto);
 
         return PagedResponse.<OrganisationDto>builder()
@@ -59,7 +60,7 @@ public class OrganisationController {
             @Parameter(description = "ID of the organisation", example = "1")
             @PathVariable Long id) {
 
-        return organisationRepository.findById(id)
+        return repository.findById(id)
                 .map(OrganisationMapper::toDto)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
@@ -67,34 +68,50 @@ public class OrganisationController {
 
     @PostMapping
     @Operation(summary = "Create a new organisation", description = "Creates a new organisation")
+    @ApiResponses({
+            @ApiResponse(responseCode = "201", description = "Organisation created successfully"),
+            @ApiResponse(responseCode = "409", description = "Organisation with this name already exists")
+    })
     public ResponseEntity<OrganisationDto> createOrganisation(
-            @Valid @RequestBody OrganisationDto organisationDto) {
-
-        Organisation entity = OrganisationMapper.toEntity(organisationDto);
-        Organisation saved = organisationRepository.save(entity);
-        return ResponseEntity.ok(OrganisationMapper.toDto(saved));
+            @Valid @RequestBody OrganisationDto dto) {
+        if(repository.existsByName(dto.getName())) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+        }
+        Organisation entity = OrganisationMapper.toEntity(dto);
+        Organisation saved = repository.save(entity);
+        return ResponseEntity.status(HttpStatus.CREATED).body(OrganisationMapper.toDto(saved));
     }
 
     @PutMapping("/{id}")
     @Operation(summary = "Update an existing organisation", description = "Updates organisation data by ID")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Organisation updated successfully"),
+            @ApiResponse(responseCode = "409", description = "Another Organisation with that name exists"),
+            @ApiResponse(responseCode = "404", description = "Organisation with this id cannot be found")
+    })
     public ResponseEntity<OrganisationDto> updateOrganisation(
             @Parameter(description = "ID of the organisation", example = "1")
             @PathVariable Long id,
-            @Valid @RequestBody OrganisationDto updatedDto) {
+            @Valid @RequestBody OrganisationDto dto) {
 
-        Optional<Organisation> existing = organisationRepository.findById(id);
+        Optional<Organisation> existing = repository.findById(id);
         if (existing.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
 
+        Optional<Organisation> existingWithName = repository.findByName(dto.getName());
+        if (existingWithName.isPresent() && !existingWithName.get().getId().equals(id)) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+        }
+
         Organisation org = existing.get();
         // Update fields from DTO
-        org.setName(updatedDto.getName());
-        org.setAddress(updatedDto.getAddress());
-        org.setEmail(updatedDto.getEmail());
-        org.setPhone(updatedDto.getPhone());
+        org.setName(dto.getName());
+        org.setAddress(dto.getAddress());
+        org.setEmail(dto.getEmail());
+        org.setPhone(dto.getPhone());
 
-        Organisation saved = organisationRepository.save(org);
+        Organisation saved = repository.save(org);
         return ResponseEntity.ok(OrganisationMapper.toDto(saved));
     }
 
@@ -104,11 +121,11 @@ public class OrganisationController {
             @Parameter(description = "ID of the organisation", example = "1")
             @PathVariable Long id) {
 
-        if (!organisationRepository.existsById(id)) {
+        if (!repository.existsById(id)) {
             return ResponseEntity.notFound().build();
         }
 
-        organisationRepository.deleteById(id);
+        repository.deleteById(id);
         return ResponseEntity.noContent().build();
     }
 }
