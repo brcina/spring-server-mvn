@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: 'spring-server-mvn'
+  datasource:
+    url: '${SM_DB_URL}'
+    username: '${SM_DB_USERNAME}'
+    password: '${SM_DB_PASSWORD}'
+  jpa:
+    hibernate:
+      ddl-auto: 'none'
+      dialect: 'org.hibernate.dialect.PostgreSQLDialect'
