@@ -62,20 +62,13 @@ spring:
 ./mvnw test
 ```
 
-Using another profile
-
-```bash
-./mvnw test -Dspring.profiles.active=dev
-```
-
-
 #### Run
 
 ```bash
 ./mvnw spring-boot:run
 ```
 
-Using another profile
+Using the dev profile which will also insert faked organisations
 
 ```bash
 ./mvnw spring-boot:run -Dspring-boot.run.profiles=dev
