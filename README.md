@@ -46,6 +46,7 @@ spring:
     hibernate:
       ddl-auto: 'create'
 ```
+This will f.e. create all the tables on the postgres db 
 
 > when started with the dev profile the application inserts some faked data in see LoadDatabase 
 
@@ -70,7 +71,7 @@ The project uses the h2 database in the test
 ./mvnw spring-boot:run
 ```
 
-Using the dev profile which will also insert faked organisations
+Using the dev profile which will also insert faked organisations see the LoadDatabase class
 
 ```bash
 ./mvnw spring-boot:run -Dspring-boot.run.profiles=dev
@@ -84,6 +85,11 @@ dependencies
 ```bash
 ./mvnw dependency:tree -DoutputFile=`pwd`/deps.txt
 ```
+
+#### Open API
+
+The project uses open api for documenting the rest api one can reach the documentation
+http://localhost:8080/api-docs resp. for testing the ui http://localhost:8080/api-ui-docs.html
 
 #### Code Quality
 
