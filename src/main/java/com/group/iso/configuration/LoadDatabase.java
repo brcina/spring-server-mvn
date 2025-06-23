@@ -23,6 +23,7 @@ public class LoadDatabase {
 
             Faker faker = new Faker();
 
+
             int createdCount = 0;
 
             for (int i = 0; i < 500; i++) {

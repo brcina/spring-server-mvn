@@ -30,10 +30,12 @@
 		<java.version>21</java.version>
 		<sonar.host.url> ${env.SM_SONAR_URL}</sonar.host.url>
 		<sonar.token>${env.SM_SONAR_TOKEN}</sonar.token>
+		<sonar.coverage.jacoco>target/site/jacoco/jacoco.xml</sonar.coverage.jacoco>
 		<datafaker.version>2.4.3</datafaker.version>
 		<lombok.version>1.18.38</lombok.version>
 		<springdoc.openapi>2.8.9</springdoc.openapi>
 		<sonar.version>5.1.0.4751</sonar.version>
+		<jacoco.version>0.8.11</jacoco.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -99,6 +101,31 @@
 				<groupId>org.sonarsource.scanner.maven</groupId>
 				<artifactId>sonar-maven-plugin</artifactId>
 				<version>${sonar.version}</version>
+			</plugin>
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>${jacoco.version}</version>
+				<executions>
+					<execution>
+						<id>prepare-agent</id>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>report</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>report</goal>
+						</goals>
+						<configuration>
+							<excludes>
+								<exclude>com/group/iso/configuration/**</exclude>
+							</excludes>
+						</configuration>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>
