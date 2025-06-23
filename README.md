@@ -47,6 +47,8 @@ spring:
       ddl-auto: 'create'
 ```
 
+> when started with the dev profile the application inserts some faked data in see LoadDatabase 
+
 
 #### Build
 
@@ -79,6 +81,15 @@ Using another profile
 ./mvnw spring-boot:run -Dspring-boot.run.profiles=dev
 ```
 
+#### Dependencies
+
+The project keeps the current dependencies of the project in the deps.txt please execute it when adding new maven 
+dependencies
+
+```bash
+./mvnw dependency:tree -DoutputFile=`pwd`/deps.txt
+```
+
 #### Code Quality
 
 To run sonarqube locally one can install sonar per docker
@@ -89,6 +100,7 @@ docker volume create --name sonarqube_logs
 docker volume create --name sonarqube_extensions
 docker run -d --name sonarqube -e SONAR_ES_BOOTSTRAP_CHECKS_DISABLE=true --add-host=host.docker.internal:host-gateway -p 9000:9000 sonarqube:community
 ```
+> See https://hub.docker.com/_/sonarqube
 
 After the docker container is running login (with the password provided) create admin user with password.
 Also create a user and copy the token to the environment variable `SM_SONAR_TOKEN` see the Environment section
@@ -104,6 +116,8 @@ via docker
 docker volume create --name jenkins_home
 docker run -p 18080:8080 -p 50000:50000 --add-host=host.docker.internal:host-gateway -v jenkins_home:/var/jenkins_home jenkins/jenkins:lts-jdk11
 ```
+
+> See `https://hub.docker.com/_/jenkins`
 
 After the docker container is running open http://localhost:18080 create admin user, use default plugins installed and 
 add the sonarqube plugin
